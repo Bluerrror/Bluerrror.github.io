@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* Improved CSS */
         body {
             font-family: 'Roboto', sans-serif;
             color: #2d3748;
@@ -66,6 +67,23 @@
             background: linear-gradient(145deg, #ffffff, #f7fafc);
             border: 1px solid #e2e8f0;
         }
+        /* New CSS */
+        .filterable-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .filterable-grid .card {
+            grid-column: span 1;
+        }
+        .filterable-grid .filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .filterable-grid .filter label {
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -103,7 +121,6 @@
                 <div class="md:w-1/2 mt-8 md:mt-0 md:pl-12 fade-in">
                     <p class="text-gray-600 leading-relaxed mb-4">Hello! I'm a passionate statistician with over X years of experience in data analysis and teaching. Error's mission is to make statistics accessible and engaging for everyone.</p>
                     <p class="text-gray-600 leading-relaxed">I specialize in breaking down complex concepts into simple, practical lessons. Whether you're a beginner or an advanced learner, I'm here to guide you through the fascinating world of data.</p>
-                    
                 </div>
             </div>
         </div>
@@ -114,36 +131,47 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center text-white mb-12 fade-in">Statistics Lessons</h2>
             <p class="text-center text-gray-200 mb-8 fade-in">Join me to master statistics through interactive and practical lessons tailored to your needs.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Introduction to Statistics</h3>
-                    <p class="text-gray-600 mb-4">Learn the basics of data, measures of central tendency, and variability.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+            <div class="filterable-grid">
+                <div class="filter">
+                    <label>
+                        <input type="checkbox" id="all" />
+                        <span>Filter by:</span>
+                        <span>Category</span>
+                        <span>Difficulty Level</span>
+                        <span>Topic</span>
+                    </label>
                 </div>
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Probability Fundamentals</h3>
-                    <p class="text-gray-600 mb-4">Explore probability concepts, including events, distributions, and theorems.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                </div>
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Hypothesis Testing</h3>
-                    <p class="text-gray-600 mb-4">Master the art of making data-driven decisions with hypothesis tests.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                </div>
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Regression Analysis</h3>
-                    <p class="text-gray-600 mb-4">Understand relationships between variables using linear and multiple regression.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                </div>
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Data Visualization</h3>
-                    <p class="text-gray-600 mb-4">Create compelling charts and graphs to tell stories with data.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                </div>
-                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Statistical Methods</h3>
-                    <p class="text-gray-600 mb-4">Dive into ANOVA, time series, and non-parametric tests.</p>
-                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Introduction to Statistics</h3>
+                        <p class="text-gray-600 mb-4">Learn the basics of data, measures of central tendency, and variability.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Probability Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">Explore probability concepts, including events, distributions, and theorems.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Hypothesis Testing</h3>
+                        <p class="text-gray-600 mb-4">Master the art of making data-driven decisions with hypothesis tests.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Regression Analysis</h3>
+                        <p class="text-gray-600 mb-4">Understand relationships between variables using linear and multiple regression.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Data Visualization</h3>
+                        <p class="text-gray-600 mb-4">Create compelling charts and graphs to tell stories with data.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
+                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Statistical Methods</h3>
+                        <p class="text-gray-600 mb-4">Dive into ANOVA, time series, and non-parametric tests.</p>
+                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                    </div>
                 </div>
             </div>
             <div class="text-center mt-12 fade-in">
@@ -155,7 +183,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 py-6">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400">© 2025 Shahab Aldin Shojaeezadeh. All rights reserved.</p>
+            <p class="text-gray-400">2025 Shahab Aldin Shojaeezadeh. All rights reserved.</p>
             <div class="mt-4 space-x-4">
                 <a href="https://github.com/Bluerrror" class="text-gray-400 hover:text-purple-400">Github</a>
                 <a href="https://www.linkedin.com/in/shahab-aldin-shojaeezadeh-b6ba5a90/" class="text-gray-400 hover:text-purple-400">LinkedIn</a>

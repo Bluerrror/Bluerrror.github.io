@@ -91,9 +91,8 @@ Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details.
 
 ## 📬 Contact
 Feel free to reach out for collaborations, feedback, or inquiries:
-- **Email:** [your-email@example.com]
-- **LinkedIn:** [your-linkedin-profile]
-- **Website:** [your-website-url]
+- **Email:** [shahab@uni-kassel.com]
+- **LinkedIn:** [[your-linkedin-profile](https://www.linkedin.com/in/shahab-aldin-shojaeezadeh-b6ba5a90/)]
 
 ## 📜 License
 This project is licensed under the [MIT License](LICENSE). See the LICENSE file for details.

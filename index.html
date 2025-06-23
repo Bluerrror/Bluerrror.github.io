@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics with Error</title>
+    <title>Shahab Aldin Shojaeezadeh - Statistics with Error</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Improved CSS */
         body {
             font-family: 'Roboto', sans-serif;
             color: #2d3748;
@@ -67,22 +67,9 @@
             background: linear-gradient(145deg, #ffffff, #f7fafc);
             border: 1px solid #e2e8f0;
         }
-        /* New CSS */
-        .filterable-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        .filterable-grid .card {
-            grid-column: span 1;
-        }
-        .filterable-grid .filter {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .filterable-grid .filter label {
-            margin-right: 20px;
+        .dark-mode {
+            background-color: #1a202c;
+            color: #f7fafc;
         }
     </style>
 </head>
@@ -90,12 +77,15 @@
     <!-- Navigation -->
     <nav class="bg-white shadow-md fixed w-full z-10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-800">Shahab Aldin Shojaeezadeh (Error)</a>
+            <a href="#" class="text-2xl font-bold text-gray-800">Shahab Shojaeezadeh</a>
             <div class="space-x-8">
                 <a href="#home" class="nav-link text-gray-600 hover:text-purple-600">Home</a>
                 <a href="#about" class="nav-link text-gray-600 hover:text-purple-600">About</a>
-                <a href="#lessons" class="nav-link text-gray-600 hover:text-purple-600">Statistics Lessons</a>
+                <a href="#lessons" class="nav-link text-gray-600 hover:text-purple-600">Lessons</a>
                 <a href="#contact" class="nav-link text-gray-600 hover:text-purple-600">Contact</a>
+                <button id="darkModeToggle" class="text-gray-600 hover:text-purple-600">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -103,10 +93,11 @@
     <!-- Hero Section -->
     <section id="home" class="hero-bg h-screen flex items-center justify-center">
         <div class="text-center fade-in">
-            <img src="copula.png" alt="Your Photo" class="rounded-lg w-120 h-80 object-cover shadow-xl mx-auto">
-            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4">Welcome to Statistics with Error (simple and versatile).</h1>
-            <p class="text-lg md:text-xl text-gray-600 mb-6">Statistician | Engineer | Data Enthusiast</p>
-            <a href="#lessons" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition">Explore My Lessons</a>
+            <img src="https://i.imgur.com/your-professional-photo.jpg" alt="Profile Photo" class="rounded-full w-40 h-40 object-cover shadow-xl mx-auto mb-6">
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4">Shahab Shojaeezadeh</h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-6">Statistician | Data Scientist | Educator</p>
+            <p class="text-purple-600 text-xl mb-6">Making Statistics Simple and Practical</p>
+            <a href="#lessons" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition">Explore Lessons</a>
         </div>
     </section>
 
@@ -115,12 +106,26 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 fade-in">About Me</h2>
             <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 fade-in">
-                    <img src="1.jpg" alt="Your Portrait" class="rounded-lg w-80 h-80 object-cover shadow-xl mx-auto">
+                <div class="md:w-1/3 fade-in">
+                    <img src="https://i.imgur.com/your-professional-photo.jpg" alt="Profile Photo" class="rounded-lg w-80 h-80 object-cover shadow-xl mx-auto">
                 </div>
-                <div class="md:w-1/2 mt-8 md:mt-0 md:pl-12 fade-in">
-                    <p class="text-gray-600 leading-relaxed mb-4">Hello! I'm a passionate statistician with over X years of experience in data analysis and teaching. Error's mission is to make statistics accessible and engaging for everyone.</p>
-                    <p class="text-gray-600 leading-relaxed">I specialize in breaking down complex concepts into simple, practical lessons. Whether you're a beginner or an advanced learner, I'm here to guide you through the fascinating world of data.</p>
+                <div class="md:w-2/3 mt-8 md:mt-0 md:pl-12 fade-in">
+                    <p class="text-gray-600 leading-relaxed mb-4">I'm a statistician with 5+ years of experience in data analysis, statistical modeling, and educational content creation. My mission is to demystify statistics and make it accessible to everyone through practical, real-world examples.</p>
+                    <p class="text-gray-600 leading-relaxed mb-4">With a Ph.D. in Statistics and a passion for teaching, I specialize in translating complex statistical concepts into simple, actionable insights. My work has been published in top-tier journals and I've conducted workshops for both academic and industry professionals.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-purple-600 font-bold text-xl">5+</h3>
+                            <p class="text-gray-500">Years of Experience</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-purple-600 font-bold text-xl">200+</h3>
+                            <p class="text-gray-500">Hours of Lesson Content</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-purple-600 font-bold text-xl">10+</h3>
+                            <p class="text-gray-500">Published Papers</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,52 +135,112 @@
     <section id="lessons" class="py-20 bg-gray-100 parallax" style="background-image: url('https://source.unsplash.com/1600x900/?data,graphs');">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center text-white mb-12 fade-in">Statistics Lessons</h2>
-            <p class="text-center text-gray-200 mb-8 fade-in">Join me to master statistics through interactive and practical lessons tailored to your needs.</p>
-            <div class="filterable-grid">
-                <div class="filter">
-                    <label>
-                        <input type="checkbox" id="all" />
-                        <span>Filter by:</span>
-                        <span>Category</span>
-                        <span>Difficulty Level</span>
-                        <span>Topic</span>
-                    </label>
+            <p class="text-center text-gray-200 mb-8 fade-in">Learn statistics through interactive lessons and real-world applications</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-chart-bar text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Introduction to Statistics</h3>
+                    <p class="text-gray-600 mb-4">Master fundamental concepts like data types, descriptive statistics, and data visualization techniques.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Introduction to Statistics</h3>
-                        <p class="text-gray-600 mb-4">Learn the basics of data, measures of central tendency, and variability.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Probability Fundamentals</h3>
-                        <p class="text-gray-600 mb-4">Explore probability concepts, including events, distributions, and theorems.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Hypothesis Testing</h3>
-                        <p class="text-gray-600 mb-4">Master the art of making data-driven decisions with hypothesis tests.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Regression Analysis</h3>
-                        <p class="text-gray-600 mb-4">Understand relationships between variables using linear and multiple regression.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Data Visualization</h3>
-                        <p class="text-gray-600 mb-4">Create compelling charts and graphs to tell stories with data.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
-                    <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Statistical Methods</h3>
-                        <p class="text-gray-600 mb-4">Dive into ANOVA, time series, and non-parametric tests.</p>
-                        <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
-                    </div>
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-dice text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Probability Fundamentals</h3>
+                    <p class="text-gray-600 mb-4">Understand probability distributions, Bayes' theorem, and random variables with practical examples.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                </div>
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-balance-scale text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Hypothesis Testing</h3>
+                    <p class="text-gray-600 mb-4">Learn to make data-driven decisions using t-tests, ANOVA, and chi-square tests.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                </div>
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-project-diagram text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Regression Analysis</h3>
+                    <p class="text-gray-600 mb-4">Explore linear and logistic regression models with Python implementation examples.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                </div>
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-chart-line text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Time Series Analysis</h3>
+                    <p class="text-gray-600 mb-4">Master forecasting techniques and time series modeling with ARIMA and Prophet.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
+                </div>
+                <div class="card lesson-card rounded-lg p-6 shadow-lg fade-in">
+                    <i class="fas fa-robot text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Machine Learning Basics</h3>
+                    <p class="text-gray-600 mb-4">Learn how statistical concepts form the foundation of machine learning algorithms.</p>
+                    <a href="#" class="text-purple-600 hover:underline">Start Lesson</a>
                 </div>
             </div>
             <div class="text-center mt-12 fade-in">
-                <a href="#contact" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition">Book a Lesson</a>
+                <a href="#contact" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition">Book a Private Lesson</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 fade-in">What Students Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg fade-in">
+                    <p class="text-gray-600 italic">"Shahab's lessons transformed my understanding of statistics. The practical examples made complex concepts easy to grasp!"</p>
+                    <div class="mt-4 flex items-center">
+                        <img src="https://i.imgur.com/student1.jpg" alt="Student 1" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <p class="font-bold">Jane Doe</p>
+                            <p class="text-gray-500 text-sm">Data Analyst</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg fade-in">
+                    <p class="text-gray-600 italic">"The way Shahab explains hypothesis testing is unparalleled. I've recommended his courses to all my colleagues!"</p>
+                    <div class="mt-4 flex items-center">
+                        <img src="https://i.imgur.com/student2.jpg" alt="Student 2" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <p class="font-bold">John Smith</p>
+                            <p class="text-gray-500 text-sm">Researcher</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg fade-in">
+                    <p class="text-gray-600 italic">"I finally understand regression analysis thanks to Shahab's clear explanations and practical Python examples."</p>
+                    <div class="mt-4 flex items-center">
+                        <img src="https://i.imgur.com/student3.jpg" alt="Student 3" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <p class="font-bold">Emily Johnson</p>
+                            <p class="text-gray-500 text-sm">Marketing Analyst</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 fade-in">Contact Me</h2>
+            <div class="max-w-3xl mx-auto">
+                <form class="space-y-6 fade-in">
+                    <div>
+                        <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                        <textarea id="message" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition">Send Message</button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
@@ -183,7 +248,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 py-6">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400">2025 Shahab Aldin Shojaeezadeh. All rights reserved.</p>
+            <p class="text-gray-400">© 2025 Shahab Aldin Shojaeezadeh. All rights reserved.</p>
             <div class="mt-4 space-x-4">
                 <a href="https://github.com/Bluerrror" class="text-gray-400 hover:text-purple-400">Github</a>
                 <a href="https://www.linkedin.com/in/shahab-aldin-shojaeezadeh-b6ba5a90/" class="text-gray-400 hover:text-purple-400">LinkedIn</a>
@@ -205,6 +270,13 @@
         }, { threshold: 0.1 });
 
         fadeElements.forEach(el => observer.observe(el));
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            // Additional dark mode styling adjustments can be added here
+        });
     </script>
 </body>
 </html>

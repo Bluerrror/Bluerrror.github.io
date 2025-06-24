@@ -11,7 +11,7 @@ window.addEventListener('load', function(){
 // iTyped 
 
 window.ityped.init(document.querySelector('.iTyped'), {
-    strings: ["I'm a Web Developer", 'I Love Html5', 'I Love CSS3', 'I Love Jquery', 'I Love Laravel'],
+    strings: ["I'm a Statistician and Hydrologist", 'I Love Data', 'I Love Copulas', 'I Love Bayesian Models', 'I Love Hydrology'],
     loop: true
 });
 

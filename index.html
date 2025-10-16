@@ -1,635 +1,540 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="en" class="scroll-smooth">
 <head>
-  <title>Personal Portfolio Template</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Template css Files -->
-  <link rel="stylesheet" href="css/style.css" type="text/css">
-
-  <!-- Live Style Switcher - Demo Only -->
-  <link rel="stylesheet" class="alternate-style" title="pink" href="css/skins/pink.css" type="text/css">
-  <link rel="stylesheet" class="alternate-style" title="blue" href="css/skins/blue.css" type="text/css" disabled>
-  <link rel="stylesheet" class="alternate-style" title="green" href="css/skins/green.css" type="text/css" disabled>
-  <link rel="stylesheet" class="alternate-style" title="orange" href="css/skins/orange.css" type="text/css" disabled>
-  <link rel="stylesheet" class="alternate-style" title="yellow" href="css/skins/yellow.css" type="text/css" disabled>
-  <link rel="stylesheet" href="css/styleSwitcher.css" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Portfolio | Shahab A. Shojaeezadeh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Academic Teal -->
+    <!-- Application Structure Plan: A thematic, single-page dashboard structure was chosen over a linear format to provide a non-linear, user-driven exploration of the candidate's profile. The structure includes: 1) A top-level summary/identity section. 2) An interactive skills visualization for quick assessment. 3) A unified career/academic timeline to show progression. 4) A filterable publication gallery for deep-diving into specific research areas, now featuring modal popups for image-based evidence. This design prioritizes usability by allowing users (students, academics) to quickly access the information most relevant to them. -->
+    <!-- Visualization & Content Choices: - Skills Data -> Goal: Compare -> Viz: Interactive Horizontal Bar Chart -> Interaction: Hover Tooltips -> Justification: Provides a quick, quantitative overview of technical strengths -> Library: Chart.js. - Career/Education -> Goal: Show Change/Organize -> Viz: Vertical Timeline -> Interaction: Scroll/Read -> Justification: Tells a cohesive story of professional development -> Library/Method: HTML/Tailwind CSS. - Publications -> Goal: Organize/Inform -> Viz: Filterable Card Grid with Visual Evidence -> Interaction: Clickable filter buttons and image preview in modal -> Justification: Makes a large body of work easily searchable and provides direct visual context for key research findings -> Library/Method: Vanilla JS + HTML/Tailwind CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            left: -0.5rem;
+            top: 0.25rem;
+            background-color: white;
+            border: 3px solid #0d9488;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            border: 1px solid #cbd5e1;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s;
+            background-color: white;
+        }
+        .filter-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .filter-btn.active {
+            background-color: #0d9488;
+            color: white;
+            border-color: #0d9488;
+        }
+        .research-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        .card-content {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .chart-container {
+             width: 100%; 
+             max-width: 600px; 
+             margin-left: auto; 
+             margin-right: auto; 
+             height: 350px; 
+             max-height: 400px; 
+             position: relative;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+        }
+    </style>
 </head>
+<body class="bg-slate-50 text-slate-800">
 
-<body>
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-teal-700">
+                <a href="#home">SAS</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#profile" class="text-slate-600 hover:text-teal-600 transition-colors">Profile</a>
+                <a href="#skills" class="text-slate-600 hover:text-teal-600 transition-colors">Skills</a>
+                <a href="#journey" class="text-slate-600 hover:text-teal-600 transition-colors">Journey</a>
+                <a href="#research" class="text-slate-600 hover:text-teal-600 transition-colors">Research</a>
+                <a href="#contact" class="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition-all">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-slate-600 focus:outline-none">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="#profile" class="block text-slate-600 hover:text-teal-600">Profile</a>
+            <a href="#skills" class="block text-slate-600 hover:text-teal-600">Skills</a>
+            <a href="#journey" class="block text-slate-600 hover:text-teal-600">Journey</a>
+            <a href="#research" class="block text-slate-600 hover:text-teal-600">Research</a>
+            <a href="#contact" class="block bg-teal-600 text-white px-4 py-2 rounded-full text-center">Contact</a>
+        </div>
+    </header>
 
-  <!-- Preloader -->
-  <div class="preloader">
-    <div class="loader">
+    <main class="container mx-auto px-6 py-12">
+        <section id="home" class="text-center py-20">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900">Shahab A. Shojaeezadeh</h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">Bridging Hydrology, Data Science, and Food Security through advanced modeling and open-source technology.</p>
+        </section>
 
+        <section id="profile" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-10">Professional Profile</h2>
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
+                 <p class="text-lg text-slate-700 leading-relaxed">
+                    I am a Water Resource Management and GIS Consultant with a robust theoretical foundation and a passion for open-source software. As an engineer, I specialize in both automation and custom application development, with extensive experience in large-scale scientific projects. My work bridges the gap between development and science, ensuring solutions are data-backed and impactful. I am customer-oriented, with a structured method of working that emphasizes quality and maintainability. Whether in a large corporation or a small, agile team, I am a highly motivated collaborator focused on connecting my deep background in hydrological processes and sediment transport to the next generation of solutions in digital agriculture and water quality management.
+                 </p>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-4">Technical Toolkit</h2>
+            <p class="text-center text-slate-600 mb-10 max-w-2xl mx-auto">
+                This chart provides a quick overview of my key technical competencies and the years of experience I have in each area. Hover over any bar to see the specific duration of expertise.
+            </p>
+            <div class="bg-white p-4 sm:p-8 rounded-xl shadow-md">
+                <div class="chart-container relative w-full mx-auto">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-4">Career & Academic Journey</h2>
+            <p class="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
+                This timeline integrates my professional experience and academic achievements, illustrating a continuous path of growth and specialization from foundational engineering to advanced research.
+            </p>
+            <div class="max-w-3xl mx-auto">
+                <div class="relative border-l-2 border-teal-200 ml-4 pl-8 space-y-12">
+                    <div class="timeline-item">
+                        <span class="absolute -left-[2.7rem] top-1 text-sm font-semibold bg-teal-600 text-white px-2 py-1 rounded-md">Present</span>
+                        <h3 class="text-xl font-semibold">Research Assistant-Habilitation</h3>
+                        <p class="text-md font-medium text-slate-600">Kassel University, Germany</p>
+                        <p class="mt-2 text-slate-700">Developing new methods to estimate/predict food security using crop modeling and remote sensing, leveraging AI and ML for the DigiPlus project to digitalize German agriculture.</p>
+                        <time class="text-sm text-teal-700 font-medium">2023 - Ongoing</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">Ph.D. Water Resource Management</h3>
+                        <p class="text-md font-medium text-slate-600">Shiraz University</p>
+                        <p class="mt-2 text-slate-700">Developed a stochastic model using Copula theory to predict sediment transport in 67 U.S. streams. Published in the journal CATENA.</p>
+                        <time class="text-sm text-teal-700 font-medium">2016 - 2021</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">Research Assistant (Full time)</h3>
+                        <p class="text-md font-medium text-slate-600">Sultan Qaboos University, Oman</p>
+                        <p class="mt-2 text-slate-700">Developed methods to estimate soil erosion conditions and hazards across Oman. Served as a sediment scientist to support Oman's future land conservation and agricultural plans.</p>
+                        <time class="text-sm text-teal-700 font-medium">2021 - 2023</time>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">Teaching Fellow and Lecturer</h3>
+                        <p class="text-md font-medium text-slate-600">Shiraz University</p>
+                        <p class="mt-2 text-slate-700">Taught undergraduate and postgraduate courses in Hydrology, Hydraulic, and River Engineering. Delivered lectures and workshops on sediment transport, hydrological modeling, and Python.</p>
+                        <time class="text-sm text-teal-700 font-medium">2015 - 2020</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">M. Sc. Hydraulic Structures</h3>
+                        <p class="text-md font-medium text-slate-600">Shiraz University</p>
+                        <p class="mt-2 text-slate-700">Designed and developed a research flume and a new Finite Volume Model (FVM) to simulate sediment transport under seepage, modifying traditional theories.</p>
+                        <time class="text-sm text-teal-700 font-medium">2013 - 2016</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">Consultant of Kamal Saleh Dam</h3>
+                        <p class="text-md font-medium text-slate-600">Design and Maintenance</p>
+                        <p class="mt-2 text-slate-700">Analyzed and identified weaknesses in the design, operation, and maintenance of a large dam, developing new, lower-complexity solutions.</p>
+                        <time class="text-sm text-teal-700 font-medium">2013 - 2015</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">Manager of family-owned Company</h3>
+                        <p class="text-md font-medium text-slate-600">Manager and Designer</p>
+                        <p class="mt-2 text-slate-700">Provided consultant, design, and maintenance work in Arak, Iran, including construction, design, and juridical consultation for engineering systems.</p>
+                        <time class="text-sm text-teal-700 font-medium">2009 - 2020</time>
+                    </div>
+                     <div class="timeline-item">
+                        <h3 class="text-xl font-semibold">B. Sc. Civil Engineering</h3>
+                        <p class="text-md font-medium text-slate-600">Arak University</p>
+                        <p class="mt-2 text-slate-700">Gained a foundation in fundamental studies of general civil engineering and water management systems.</p>
+                        <time class="text-sm text-teal-700 font-medium">2009 - 2013</time>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="research" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-4">Key Research & Publications</h2>
+            <p class="text-center text-slate-600 mb-10 max-w-3xl mx-auto">
+                My research focuses on applying statistical, numerical, and machine learning models to solve complex problems in hydrology and environmental science. Use the filters below to explore publications related to specific topics. Click "View Evidence" to see supporting visuals from the research.
+            </p>
+            <div class="flex justify-center flex-wrap gap-3 mb-12">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ml">Machine Learning & AI</button>
+                <button class="filter-btn" data-filter="rs">Remote Sensing</button>
+                <button class="filter-btn" data-filter="stochastic">Stochastic Modeling</button>
+                <button class="filter-btn" data-filter="erosion">Soil Erosion</button>
+            </div>
+            <div id="research-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Publication 1: Soil Erosion in the United States -->
+                <div class="research-card" data-tags='["erosion", "ml", "rs"]'>
+                    <div>
+                        <h3 class="card-title">Soil Erosion in the United States (Present & Future)</h3>
+                        <p class="card-content">Estimated and predicted water-driven soil erosion rates across the contiguous U.S. for the present and future (2020-2050) using the G2 erosion model integrated with ML and RS techniques.</p>
+                    </div>
+                    <button class="view-evidence mt-4 bg-slate-100 text-teal-600 border border-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-teal-600 hover:text-white transition-colors" data-image="uploaded:image_a25da4.jpg-40d8c55e-be73-4374-8b61-9929cc4b32da" data-caption="Soil Erosion (Mg ha⁻¹ yr⁻¹) at baseline and projected changes for SSP-RCP scenarios 2.6, 4.5, and 8.5 across the contiguous United States.">
+                        View Evidence
+                    </button>
+                </div>
+
+                <!-- Publication 2: Stochastic Modeling of Sediment Load -->
+                <div class="research-card" data-tags='["stochastic"]'>
+                    <div>
+                        <h3 class="card-title">Stochastic Modeling of Sediment Load in Alluvial Rivers</h3>
+                        <p class="card-content">Introduced a parsimonious probabilistic model rooted in multivariate probability theory and Bayesian Networks to describe the relationship between Suspended Sediment Load (SSL) and discharge volume.</p>
+                    </div>
+                    <button class="view-evidence mt-4 bg-slate-100 text-teal-600 border border-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-teal-600 hover:text-white transition-colors" data-image="uploaded:image_a25de8.jpg-1b5aa3a7-bb45-4493-8f13-79b5e8a77545" data-caption="Stochastic modeling framework showing the process of moving from discrete events (1) to marginal probability density functions f(SSL) and f(D) (3.1, 3.2), to the joint distribution F(D, SSL) (4), and the resulting conditional probability density f(SSL|D) (5).">
+                        View Evidence
+                    </button>
+                </div>
+                
+                <!-- Publication 3: SSL Modeling with Hydro-Climate Variables (ML) -->
+                <div class="research-card" data-tags='["ml"]'>
+                    <div>
+                        <h3 class="card-title">SSL Modeling using Hydro-Climate Variables & Machine Learning</h3>
+                        <p class="card-content">Investigated the efficacy of ML models (Xgboost, LightGBM, Catboost) in modeling sediment transport using hydro-climate variables like streamflow, precipitation, and temperature as input data.</p>
+                    </div>
+                    <button class="view-evidence mt-4 bg-slate-100 text-teal-600 border border-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-teal-600 hover:text-white transition-colors" data-image="uploaded:image_a25a1f.jpg-0887ca94-6977-4d01-9df1-215a1c339d69" data-caption="Prediction and uncertainty quantification of streamflow using the developed model. Panel A shows prediction quantiles (2.5th to 97.5th) and Panel B shows the separation of Aleatoric and Epistemic uncertainty over time.">
+                        View Evidence
+                    </button>
+                </div>
+
+                <!-- Remaining Publications without Images -->
+                <div class="research-card" data-tags='["stochastic"]'>
+                    <div>
+                        <h3 class="card-title">Probabilistic Hazard Assessment of Contaminants</h3>
+                        <p class="card-content">Proposed a probabilistic framework rooted in multivariate and Copula theory to assess heavy metal hazard associated with contaminated sediment in freshwater rivers.</p>
+                    </div>
+                    <!-- Placeholder button for consistent layout -->
+                    <button class="view-evidence mt-4 bg-slate-100 text-slate-400 border border-slate-300 px-4 py-2 rounded-lg font-medium cursor-default" disabled>
+                        No Visual Evidence
+                    </button>
+                </div>
+                <div class="research-card" data-tags='["stochastic", "erosion"]'>
+                    <div>
+                        <h3 class="card-title">Process-constrained Sediment Yield Modeling</h3>
+                        <p class="card-content">Presented a framework to fine-tune a stochastic sediment yield model by classifying discharge and SSL observations based on underlying governing processes in unregulated streams.</p>
+                    </div>
+                    <!-- Placeholder button for consistent layout -->
+                    <button class="view-evidence mt-4 bg-slate-100 text-slate-400 border border-slate-300 px-4 py-2 rounded-lg font-medium cursor-default" disabled>
+                        No Visual Evidence
+                    </button>
+                </div>
+                <div class="research-card" data-tags='["rs"]'>
+                    <div>
+                        <h3 class="card-title">Road Construction Effects on Turbidity</h3>
+                        <p class="card-content">Used Sentinel-1 and Sentinel-2 data in Google Earth Engine (GEE) for a spatio-temporal analysis of turbidity in water bodies adjacent to a highway construction project in Norway.</p>
+                    </div>
+                    <!-- Placeholder button for consistent layout -->
+                    <button class="view-evidence mt-4 bg-slate-100 text-slate-400 border border-slate-300 px-4 py-2 rounded-lg font-medium cursor-default" disabled>
+                        No Visual Evidence
+                    </button>
+                </div>
+                <div class="research-card" data-tags='["erosion", "rs", "ml"]'>
+                    <div>
+                        <h3 class="card-title">Historical Hazard Assessment in Oman</h3>
+                        <p class="card-content">Presented a novel high-resolution (30 m) soil erosion framework using the G2 model, integrating satellite datasets and ML models to assess spatiotemporal soil erosion risks over four decades.</p>
+                    </div>
+                    <!-- Placeholder button for consistent layout -->
+                    <button class="view-evidence mt-4 bg-slate-100 text-slate-400 border border-slate-300 px-4 py-2 rounded-lg font-medium cursor-default" disabled>
+                        No Visual Evidence
+                    </button>
+                </div>
+                <div class="research-card" data-tags='[]'>
+                    <div>
+                        <h3 class="card-title">2D Velocity Distribution with Entropy</h3>
+                        <p class="card-content">Used a General Index Entropy-based method to derive a two-dimensional velocity distribution profile in open channels by maximizing entropy and treating velocity as a random variable.</p>
+                    </div>
+                    <!-- Placeholder button for consistent layout -->
+                    <button class="view-evidence mt-4 bg-slate-100 text-slate-400 border border-slate-300 px-4 py-2 rounded-lg font-medium cursor-default" disabled>
+                        No Visual Evidence
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="py-20 text-center bg-white rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold mb-4">Research Vision & Collaboration</h2>
+             <p class="text-slate-600 max-w-3xl mx-auto mb-8">
+                My primary interest is the connection between hydrology and the fate of soil through watershed processes. I believe the future of water and agricultural management lies in integrating physical mechanisms with Deep Learning, scaling solutions with cloud platforms like GEE, and developing robust probabilistic frameworks to manage environmental hazards. I am always open to collaborating on projects involving data fusion, predictive modeling, or applications of AI in environmental engineering.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
+                <a href="mailto:shahab2710@gmail.com" class="bg-teal-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-teal-700 transition-all">
+                    Email Me
+                </a>
+                 <p class="font-mono text-slate-700 text-lg">+49 174 411 8418</p>
+            </div>
+            
+            <!-- Social and Academic Links Added Here -->
+            <div class="flex justify-center space-x-6">
+                <!-- GitHub -->
+                <a href="https://github.com/Bluerrror" target="_blank" aria-label="GitHub Profile" class="text-slate-500 hover:text-teal-600 transition-colors">
+                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.43 9.79 8.24 11.38.6.11.82-.26.82-.57 0-.28-.01-1.03-.02-2.02-3.33.72-4.04-1.61-4.04-1.61-.54-1.37-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.07 1.83 2.8 1.3 3.49.99.11-.77.41-1.3.75-1.6-2.67-.3-5.46-1.33-5.46-5.93 0-1.31.46-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.18 0 0 1-.32 3.3 1.23.95-.26 1.95-.39 2.95-.39.99 0 1.99.13 2.95.39 2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.23 2.88.12 3.18.76.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.08.81 2.18 0 1.6-.01 2.89-.01 3.28 0 .31.21.68.82.57C20.57 21.79 24 17.31 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                </a>
+                
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/shahab-aldin-shojaeezadeh-b6ba5a90/" target="_blank" aria-label="LinkedIn Profile" class="text-slate-500 hover:text-teal-600 transition-colors">
+                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.447 20.452h-3.554v-5.61a1.488 1.488 0 0 0-.05-0.577 1.489 1.489 0 0 0-0.274-0.575 1.493 1.493 0 0 0-0.428-0.428 1.499 1.499 0 0 0-0.578-0.271 1.5 1.5 0 0 0-0.584-0.052 1.488 1.488 0 0 0-1.5 1.5v5.61h-3.554V9.851h3.554v1.545h0.02a3.952 3.952 0 0 1 3.552-1.955c2.32 0 4.075 1.543 4.075 4.887v6.124h-3.554zM5.992 8.523C4.847 8.523 4 7.72 4 6.572S4.846 4.62 5.992 4.62c1.155 0 2.01.8 2.01 1.952S7.147 8.523 5.992 8.523zm1.777 11.93h-3.554V9.851h3.554v10.602z"/>
+                    </svg>
+                </a>
+
+                <!-- Google Scholar (using an academic cap icon) -->
+                <a href="https://scholar.google.com/citations?user=5wfrVUwAAAAJ&hl=en" target="_blank" aria-label="Google Scholar Profile" class="text-slate-500 hover:text-teal-600 transition-colors">
+                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L1 9l11 6 11-6-11-6zM12 17.5l-9-4.74V19l9 4.74L21 19v-6.24l-9 4.74z"/>
+                    </svg>
+                </a>
+            </div>
+            
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-slate-500">
+        <p>&copy; 2025 Shahab A. Shojaeezadeh. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Modal for Image Evidence -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-70 z-[100] hidden flex justify-center items-center p-4" onclick="closeModal()">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modalTitle" class="text-xl font-bold text-slate-800">Visual Evidence</h3>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-slate-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <img id="modalImage" class="w-full h-auto rounded-lg mb-4" src="" alt="Research Visual Evidence">
+            <p id="modalCaption" class="text-sm text-slate-600 italic"></p>
+        </div>
     </div>
-  </div>
-  <!-- Preloader End -->
 
-  <!-- Main Container -->
-  <div class="main-container">
-    <!-- Aside -->
-    <div class="aside">
-      <!-- Nav Toggler Btn -->
-      <div class="nav-toggler">
-        <span></span>
-      </div>
-      <div class="aside-inner">
-        <!-- Logo -->
-        <div class="logo">
-          <a href="#">Error</a>
-        </div>
-        <!-- Nav -->
-        <ul class="nav">
-          <li><a href="#home" class="active"><i class="fa fa-home"></i> Home</a></li>
-          <li><a href="#about"><i class="fa fa-user"></i> About</a></li>
-          <li><a href="#services"><i class="fa fa-list"></i> Services</a></li>
-          <li><a href="#portfolio"><i class="fa fa-briefcase"></i> Portfolio</a></li>
-          <li><a href="#blog"><i class="fa fa-envelope"></i> Blog</a></li>
-          <li><a href="#contact"><i class="fa fa-comments"></i> Contact</a></li>
-        </ul>
-        <!-- Copyright -->
-        <div class="copyright-text">
-          &copy; 2020 The WebShala Template
-        </div>
-      </div>
-    </div>
-    <!-- Aside End -->
-    <!-- Main Content -->
-    <div class="main-content">
+    <script>
+        const SKILLS_DATA = {
+            labels: [
+                'Microsoft Office/LaTeX', 'Windows/Mac OS/Linux', 'Python', 'R', 'QGIS/ArcGIS', 
+                'Adobe Photoshop', 'FDM/FVM algorithms', 'Maple/Mathematica', 'Data Science', 
+                'Software Development', 'Stochastic Modeling', 'MATLAB', 'Delft3D FM/Flow', 
+                'Particle/Plastic Tracking', 'Remote Sensing', 'Machine Learning/Deep Learning', 
+                'Google Earth Engine', 'ANSYS FLUENT', 'FLOW-3D', 'WEPP', 'Hec-RAS/Hec-HMS', 'SPH', 'ROMS'
+            ],
+            years: [
+                15, 15, 10, 7, 7, 7, 5, 5, 5, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1
+            ]
+        };
+        
+        function initChart() {
+            const sortedSkills = SKILLS_DATA.labels
+                .map((label, index) => ({ label, years: SKILLS_DATA.years[index] }))
+                .sort((a, b) => b.years - a.years);
 
-      <!-- Home Section -->
-      <section class="home section active" id="home">
-        <div class="container">
-          <div class="intro">
-            <img src="2.jpg" alt="profile" class="shadow-dark">
-            <h1>Shahab A. Shojaeezadeh</h1>
-            <span class="iTyped"></span>
-            <div class="social-links">
-              <a href="#"><i class="fa fa-twitter"></i></a>
-              <a href="#"><i class="fa fa-facebook"></i></a>
-              <a href="#"><i class="fa fa-instagram"></i></a>
-              <a href="#"><i class="fa fa-linkedin"></i></a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Home Section End -->
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedSkills.map(s => s.label),
+                    datasets: [{
+                        label: 'Years of Experience',
+                        data: sortedSkills.map(s => s.years),
+                        backgroundColor: '#0d9488',
+                        borderColor: '#0f766e',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' years';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2e8f0'
+                            },
+                            ticks: {
+                                color: '#475569'
+                            },
+                             title: {
+                                display: true,
+                                text: 'Years of Experience',
+                                color: '#334155'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                             ticks: {
+                                color: '#475569',
+                                autoSkip: false,
+                                callback: function(value, index, values) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 25) {
+                                        return label.substring(0, 25) + '...';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
-      <!-- About Section -->
-      <section class="about section" id="about">
-        <div class="container">
-          <div class="row">
-            <div class="section-title padd-15">
-              <h2>About Me</h2>
-            </div>
-          </div>
-          <div class="row">
-            <div class="about-content padd-15">
-              <div class="row">
-                <div class="about-text padd-15">
-                  <h3>I'm Error (Nicknmae :D) and <span>Statistican</span></h3>
-                  <p>Hi! My name is Error. I am a Statistican, and I'm very passionate and dedicated
-                    to my work. With 10 years experience in Python Programming, I have acquired the skills and knowledge necessary to make your project a success. I enjoy every step of the developing process, from discussion and collaboration. </p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="personal-info padd-15">
-                  <div class="row">
-                    <div class="info-item padd-15">
-                      <p>Birthday : <span>5 June 1992</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Age : <span>28</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Website : <span>www.domain.com</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Email : <span>info@gmail.com</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Degree : <span>M.Tech</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Phone : <span>+91 8800 000 000</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>City : <span>Mumbai</span></p>
-                    </div>
-                    <div class="info-item padd-15">
-                      <p>Freelance : <span>Available</span></p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="buttons padd-15">
-                      <a href="#" class="btn">Download Cv</a>
-                      <a href="#contact" data-section-index="1" class="btn hire-me">Hire me</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="skills padd-15">
-                  <div class="row">
-                    <div class="skill-item padd-15">
-                      <h5>Javascript</h5>
-                      <div class="progress">
-                        <div class="progress-in" style="width: 76%;"></div>
-                        <div class="skill-porcent">
-                          76%
-                        </div>
-                      </div>
-                    </div>
-                    <div class="skill-item padd-15">
-                      <h5>Wordpress</h5>
-                      <div class="progress">
-                        <div class="progress-in" style="width: 90%;"></div>
-                        <div class="skill-porcent">
-                          90%
-                        </div>
-                      </div>
-                    </div>
-                    <div class="skill-item padd-15">
-                      <h5>Java</h5>
-                      <div class="progress">
-                        <div class="progress-in" style="width: 80%;"></div>
-                        <div class="skill-porcent">
-                          80%
-                        </div>
-                      </div>
-                    </div>
-                    <div class="skill-item padd-15">
-                      <h5>Bootstrap</h5>
-                      <div class="progress">
-                        <div class="progress-in" style="width: 60%;"></div>
-                        <div class="skill-porcent">
-                          60%
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        function initResearchFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const researchCards = document.querySelectorAll('.research-card');
 
-              <div class="row">
-                <div class="education padd-15">
-                  <h3 class="title">Education</h3>
-                  <div class="row">
-                    <div class="timeline-box padd-15">
-                      <div class="timeline shadow-dark">
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2013 - 2015</h6>
-                          <h4 class="timeline-title">Master In Computer Science</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2011 - 2013</h6>
-                          <h4 class="timeline-title">Studied At Delhi University</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2008 - 2011</h6>
-                          <h4 class="timeline-title">Bachelor Degree</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="experience padd-15">
-                  <h3 class="title">Experience</h3>
-                  <div class="row">
-                    <div class="timeline-box padd-15">
-                      <div class="timeline shadow-dark">
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2013 - 2015</h6>
-                          <h4 class="timeline-title">Backend Developer</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2011 - 2013</h6>
-                          <h4 class="timeline-title">Frontend Developer</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                        <!-- timeline Item -->
-                        <div class="timeline-item">
-                          <div class="circle-dot"></div>
-                          <h6 class="timeline-date"><i class="fa fa-calendar"></i> 2008 - 2011</h6>
-                          <h4 class="timeline-title">Graphic Designer</h4>
-                          <p class="timeline-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non
-                            nisi semper, et elementum lorem ornare.</p>
-                        </div>
-                        <!-- timeline Item End -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
 
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- About Section End -->
+                    const filter = button.dataset.filter;
 
-      <!-- Service Section -->
-      <section class="service section" id="services">
-        <div class="container">
-          <div class="row">
-            <div class="section-title padd-15">
-              <h2>Services</h2>
-            </div>
-          </div>
-          <div class="row">
-            <!-- Service item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-laptop"></i></div>
-                <h4>Web Design</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service item End -->
-            <!-- Service item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-photo"></i></div>
-                <h4>Photography</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service item End -->
-            <!-- Service item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-code"></i></div>
-                <h4>Web Development</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service item End -->
-            <!-- Service item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-film"></i></div>
-                <h4>Video Editing</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service item End -->
-            <!-- Service item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-rocket"></i></div>
-                <h4>Seo Optimization</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service Item End -->
-            <!-- Service Item -->
-            <div class="service-item padd-15">
-              <div class="service-item-inner">
-                <div class="icon"><i class="fa fa-paint-brush"></i></div>
-                <h4>Logo Design</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-              </div>
-            </div>
-            <!-- Service item End -->
-          </div>
-        </div>
-      </section>
-      <!-- Service Section End -->
+                    researchCards.forEach(card => {
+                        const tags = JSON.parse(card.dataset.tags || '[]');
+                        if (filter === 'all' || tags.includes(filter)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
 
-      <!-- Portfolio Section -->
-      <section class="portfolio section" id="portfolio">
-        <div class="container">
-          <div class="row">
-            <div class="section-title padd-15">
-              <h2>Portfolio</h2>
-            </div>
-          </div>
-          <div class="row">
-            <div class="portfolio-filter padd-15">
-              <button type="button" class="active" data-filter="all">All</button>
-              <button type="button" data-filter="web-design">Web Design</button>
-              <button type="button" data-filter="photography">Photography</button>
-              <button type="button" data-filter="wordpress">Wordpress</button>
-            </div>
-          </div>
-          <div class="row">
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="web-design">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/2.jpg" alt="Web Design">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Web Design</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="photography">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/2.jpg" alt="Photography">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Photography</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="wordpress">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/3.jpg" alt="Wordpress">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Wordpress</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="web-design">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/4.jpg" alt="portfolio">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Web Design</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="wordpress">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/5.jpg" alt="Wordpress">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Wordpress</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-            <!-- Portfolio Item -->
-            <div class="portfolio-item padd-15" data-category="photography">
-              <div class="portfolio-item-inner shadow-dark">
-                <div class="portfolio-img">
-                  <img src="images/portfolio/6.jpg" alt="Wordpress">
-                </div>
-                <div class="portfolio-info">
-                  <h4>Photography</h4>
-                  <div class="icon">
-                    <i class="fa fa-search"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Portfolio Item End -->
-          </div>
-        </div>
-      </section>
-      <!-- Portfolio Section End -->
+            const defaultFilter = document.querySelector('.filter-btn[data-filter="all"]');
+            if(defaultFilter) defaultFilter.click();
+        }
 
-      <!-- Blog Section -->
-      <section class="blog section" id="blog">
-        <div class="container">
-          <div class="row">
-            <div class="section-title padd-15">
-              <h2>Latest Blog</h2>
-            </div>
-          </div>
-          <div class="row">
-            <!-- Blog Item -->
-            <div class="blog-item padd-15">
-              <div class="blog-item-inner shadow-dark">
-                <div class="blog-img">
-                  <img src="images/blog/2.jpg" alt="">
-                  <div class="blog-date">
-                    4 jun 2020
-                  </div>
-                </div>
-                <div class="blog-info">
-                  <h4 class="blog-title">Responsive Web Design</h4>
-                  <p class="blog-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, porro rem quod illo
-                    quam, eum alias id, repellendus magni, quas.</p>
-                  <p class="blog-tags">Tags : <a href="#">Html</a> , <a href="#">css</a></p>
-                </div>
-              </div>
-            </div>
-            <!-- Blog Item End -->
-            <!-- Blog Item -->
-            <div class="blog-item padd-15">
-              <div class="blog-item-inner shadow-dark">
-                <div class="blog-img">
-                  <img src="images/blog/2.jpg" alt="">
-                  <div class="blog-date">
-                    4 jun 2020
-                  </div>
-                </div>
-                <div class="blog-info">
-                  <h4 class="blog-title">Creative Slideshow</h4>
-                  <p class="blog-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, porro rem quod illo
-                    quam, eum alias id, repellendus magni, quas.</p>
-                  <p class="blog-tags">Tags : <a href="#">Html</a> , <a href="#">Javascript</a></p>
-                </div>
-              </div>
-            </div>
-            <!-- Blog Item End -->
-            <!-- Blog Item -->
-            <div class="blog-item padd-15">
-              <div class="blog-item-inner shadow-dark">
-                <div class="blog-img">
-                  <img src="images/blog/3.jpg" alt="">
-                  <div class="blog-date">
-                    4 jun 2020
-                  </div>
-                </div>
-                <div class="blog-info">
-                  <h4 class="blog-title">Image Gallery Lightbox</h4>
-                  <p class="blog-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, porro rem quod illo
-                    quam, eum alias id, repellendus magni, quas.</p>
-                  <p class="blog-tags">Tags : <a href="#">Javascript</a></p>
-                </div>
-              </div>
-            </div>
-            <!-- Blog Item End -->
-          </div>
-        </div>
-      </section>
-      <!-- Blog Section End -->
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        
+        window.openModal = function(imageContentId, caption) {
+            // Note: imageContentId is a fetch ID; in the browser environment, 
+            // the fetch mechanism handles conversion. We append it to base64.
+            modalImage.src = `data:image/jpeg;base64,${imageContentId}`; 
+            modalCaption.textContent = caption;
+            modal.classList.remove('hidden');
+        }
 
-      <!-- Contact Section -->
-      <section class="contact section" id="contact">
-        <div class="container">
-          <div class="row">
-            <div class="section-title padd-15">
-              <h2>Contact Me</h2>
-            </div>
-          </div>
-          <div class="row">
-            <!-- contact-info-item  -->
-            <div class="contact-info-item padd-15">
-              <div class="icon">
-                <i class="fa fa-phone"></i>
-                <h4>Call Us On</h4>
-                <p>+91 8800 000 000</p>
-              </div>
-            </div>
-            <!-- contact-info-item end -->
-            <!-- contact-info-item  -->
-            <div class="contact-info-item padd-15">
-              <div class="icon">
-                <i class="fa fa-map-marker"></i>
-                <h4>Office</h4>
-                <p>44 Street, New Delhi, India</p>
-              </div>
-            </div>
-            <!-- contact-info-item end -->
-            <!-- contact-info-item  -->
-            <div class="contact-info-item padd-15">
-              <div class="icon">
-                <i class="fa fa-envelope"></i>
-                <h4>Email</h4>
-                <p>info@gmail.com</p>
-              </div>
-            </div>
-            <!-- contact-info-item end -->
-          </div>
+        window.closeModal = function() {
+            modal.classList.add('hidden');
+        }
 
-          <!-- Contact Form -->
-          <div class="row">
-            <form action="#" class="contact-form padd-15">
-              <div class="row">
-                <div class="form-item col-6 padd-15">
-                  <div class="form-group">
-                    <input type="text" name="" class="form-control" placeholder="Name*">
-                  </div>
-                </div>
-                <div class="form-item col-6 padd-15">
-                  <div class="form-group">
-                    <input type="email" name="" class="form-control" placeholder="Email*">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-item col-12 padd-15">
-                  <div class="form-group">
-                    <input type="text" name="" class="form-control" placeholder="Subject*">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-item col-12 padd-15">
-                  <div class="form-group">
-                    <textarea class="form-control" name="" placeholder="Your Message..."></textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 padd-15">
-                  <button type="submit" class="btn">Send Message</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <!-- Contact Form End -->
-        </div>
-      </section>
-      <!-- Contact Section End -->
+        function initModalButtons() {
+            document.querySelectorAll('.view-evidence').forEach(button => {
+                if (!button.hasAttribute('disabled')) {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const imageContentId = e.currentTarget.dataset.image;
+                        const caption = e.currentTarget.dataset.caption;
+                        openModal(imageContentId, caption);
+                    });
+                }
+            });
+        }
+        
+        function initNavigation() {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
-    </div>
-    <!-- Main Content End -->
-  </div>
-  <!-- Main Container End -->
+            document.querySelectorAll('#mobile-menu a, header nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                     if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (mobileMenu.classList.contains('hidden') === false) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                     }
+                });
+            });
+        }
 
-  <!-- Lightbox -->
-  <div class="lightbox">
-    <div class="lightbox-content">
-      <div class="lightbox-close">&times;</div>
-      <img src="" alt="" onclick="nextItem()" class="lightbox-img">
-      <div class="lightbox-caption">
-        <div class="caption-text"></div>
-        <div class="caption-counter"></div>
-      </div>
-    </div>
-    <div class="lightbox-controls">
-      <div class="prev-item" onclick="prevItem()"><i class="fa fa-angle-left"></i></div>
-      <div class="next-item" onclick="nextItem()"><i class="fa fa-angle-right"></i></div>
-    </div>
-  </div>
-  <!-- Lightbox End -->
-
-  <!-- Live Style Switcher - Demo Only -->
-  <div class="style-switcher">
-    <div class="toggle-style-switcher">
-      <i class="fa fa-cog fa-spin"></i>
-    </div>
-    <h5>Style Switcher</h5>
-    <ul>
-      <li><a href="javascript:void(0);" title="pink" style="background-color: #ec1839;" onclick="setActiveStyle('pink')"></a></li>
-      <li><a href="javascript:void(0);" title="blue" style="background-color: #2196f3;" onclick="setActiveStyle('blue')"></a></li>
-      <li><a href="javascript:void(0);" title="orange" style="background-color: #fa5b0f;" onclick="setActiveStyle('orange')"></a></li>
-      <li><a href="javascript:void(0);" title="yellow" style="background-color: #ffb400;" onclick="setActiveStyle('yellow')"></a></li>
-      <li><a href="javascript:void(0);" title="green" style="background-color: #72b626;" onclick="setActiveStyle('green')"></a></li>
-    </ul>
-    <h5>Body Skin</h5>
-    <label>
-      <input type="radio" class="body-skin" name="body-skin" value="light" checked="true"> Light
-    </label>
-    <label>
-      <input type="radio" class="body-skin" name="body-skin" value="dark"> Dark
-    </label>
-  </div>
-  <!-- Live Style Switcher - Demo Only End -->
-
-  <!-- Plugins -->
-  <script src="js/ityped.min.js"></script>
-  <!-- Template js -->
-  <script src="js/script.js"></script>
-  <!-- Live Style Js - Demo Only -->
-  <script src="js/styleSwitcher.js"></script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initChart();
+            initResearchFilters();
+            initModalButtons();
+            initNavigation();
+        });
+    </script>
 </body>
-
 </html>
